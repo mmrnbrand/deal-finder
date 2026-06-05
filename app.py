@@ -1,22 +1,17 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from deals import get_deals
+import os
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def home():
 
-    filtered = get_deals()
+    deals = get_deals()
 
-    if request.method == "POST":
-        keyword = request.form["search"].lower()
+    print("DEALS COUNT:", len(deals))  # check logs
 
-        filtered = [
-        d for d in get_deals()
-        if keyword in d["title"].lower()
-    ]
-
-    return render_template("index.html", deals=filtered)
+    return render_template("index.html", deals=deals)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
