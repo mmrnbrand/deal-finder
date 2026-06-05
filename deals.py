@@ -1,17 +1,21 @@
 import feedparser
 
-SLICKDEALS_RSS = "https://slickdeals.net/newsearch.php?mode=rss"
+FEEDS = [
+    "https://www.dealnews.com/rss/",
+    "https://www.cheapshark.com/feeds/deals?storeID=1"
+]
 
 def get_deals():
-    feed = feedparser.parse(SLICKDEALS_RSS)
+    all_deals = []
 
-    deals = []
+    for url in FEEDS:
+        feed = feedparser.parse(url)
 
-    for entry in feed.entries[:20]:
-        deals.append({
-            "title": entry.title,
-            "price": "Deal",
-            "link": entry.link
-        })
+        for entry in feed.entries[:10]:
+            all_deals.append({
+                "title": entry.title,
+                "price": "Deal",
+                "link": entry.link
+            })
 
-    return deals
+    return all_deals
