@@ -1,19 +1,24 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from deals import get_deals
 import os
 
 app = Flask(__name__)
 
-print("🔥 APP IS RUNNING - NEW CODE DEPLOYED")
-
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
 
-    deals = get_deals()
+    all_deals = get_deals()
+    filtered = all_deals
 
-    print("🔥 RAW DEAL SAMPLE:", deals[:1])
+    if request.method == "POST":
+        keyword = request.form["search"].lower().strip()
 
-    return str(deals[:3])
+        filtered = [
+            d for d in all_deals
+            if keyword in d["title"].lower()
+        ]
+
+    return render_template("index.html", deals=filtered)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
