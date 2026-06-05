@@ -1,17 +1,21 @@
-deals = [
-    {
-        "title": "HP 15.6 Laptop Ryzen 5",
-        "price": "$399",
-        "link": "https://example.com/deal1"
-    },
-    {
-        "title": "Samsung 55 4K Smart TV",
-        "price": "$429",
-        "link": "https://example.com/deal2"
-    },
-    {
-        "title": "Apple AirPods Pro 2",
-        "price": "$189",
-        "link": "https://example.com/deal3"
-    }
+import feedparser
+
+SOURCES = [
+    "https://slickdeals.net/rss/deals.xml",
+    "https://www.dealnews.com/rss/"
 ]
+
+def get_deals():
+    all_deals = []
+
+    for url in SOURCES:
+        feed = feedparser.parse(url)
+
+        for entry in feed.entries[:10]:
+            all_deals.append({
+                "title": entry.title,
+                "price": "See deal",
+                "link": entry.link
+            })
+
+    return all_deals

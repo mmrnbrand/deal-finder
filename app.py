@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
-from deals import deals
+from deals import get_deals
 
 app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
 
-    filtered = deals
+    filtered = get_deals()
 
     if request.method == "POST":
         keyword = request.form["search"].lower()
