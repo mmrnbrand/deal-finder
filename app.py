@@ -11,9 +11,9 @@ def home():
 
     deals = get_deals()
 
-    print("🔥 DEAL COUNT:", len(deals))
+    print("🔥 RAW DEAL SAMPLE:", deals[:1])
 
-    return render_template("index.html", deals=deals)
+    return str(deals[:3])
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
