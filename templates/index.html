@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deal Finder</title>
+</head>
+<body>
+
+<h1>🔥 Deal Finder</h1>
+
+<form method="POST">
+    <input type="text" name="search" placeholder="Search deals...">
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% for deal in deals %}
+    <div style="margin-bottom:20px;">
+        <h3>{{ deal.title }}</h3>
+        <p>{{ deal.price }}</p>
+        <a href="{{ deal.link }}" target="_blank">View Deal</a>
+    </div>
+{% endfor %}
+
+</body>
+</html>

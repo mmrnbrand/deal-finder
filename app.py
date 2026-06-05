@@ -1,0 +1,22 @@
+from flask import Flask, render_template, request
+from deals import deals
+
+app = Flask(__name__)
+
+@app.route("/", methods=["GET", "POST"])
+def home():
+
+    filtered = deals
+
+    if request.method == "POST":
+        keyword = request.form["search"].lower()
+
+        filtered = [
+            d for d in deals
+            if keyword in d["title"].lower()
+        ]
+
+    return render_template("index.html", deals=filtered)
+
+if __name__ == "__main__":
+    app.run(debug=True)
