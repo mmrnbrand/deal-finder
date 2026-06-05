@@ -1,21 +1,23 @@
-import feedparser
+import requests
 
-FEEDS = [
-    "https://www.dealnews.com/rss/",
-    "https://www.cheapshark.com/feeds/deals?storeID=1"
-]
+API_URL = "https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=15"
 
 def get_deals():
-    all_deals = []
+    try:
+        response = requests.get(API_URL, timeout=10)
+        data = response.json()
 
-    for url in FEEDS:
-        feed = feedparser.parse(url)
+        deals = []
 
-        for entry in feed.entries[:10]:
-            all_deals.append({
-                "title": entry.title,
-                "price": "Deal",
-                "link": entry.link
+        for item in data[:20]:
+            deals.append({
+                "title": item["title"],
+                "price": f"${item['salePrice']}",
+                "link": "https://www.cheapshark.com/redirect?dealID=" + item["cheapestDealID"]
             })
 
-    return all_deals
+        return deals
+
+    except Exception as e:
+        print("API ERROR:", e)
+        return []
