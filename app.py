@@ -8,7 +8,7 @@ app = Flask(__name__)
 def home():
 
     all_deals = get_deals()
-    filtered = all_deals
+    print("DEALS LOADED:", len(all_deals))
 
     if request.method == "POST":
         keyword = request.form["search"].lower()
