@@ -12,9 +12,9 @@ def home():
         keyword = request.form["search"].lower()
 
         filtered = [
-            d for d in deals
-            if keyword in d["title"].lower()
-        ]
+        d for d in get_deals()
+        if keyword in d["title"].lower()
+    ]
 
     return render_template("index.html", deals=filtered)
 
